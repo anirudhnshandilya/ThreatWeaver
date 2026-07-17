@@ -1,0 +1,59 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "threatweaver"
+version = "0.1.0"
+description = "An open-source security graph engine that converts Infrastructure-as-Code into evidence-backed attack paths."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "Apache-2.0" }
+authors = [
+  { name = "Anirudh N Shandilya" }
+]
+keywords = [
+  "cybersecurity",
+  "attack-graph",
+  "threat-modeling",
+  "terraform",
+  "cloud-security",
+  "devsecops"
+]
+
+dependencies = [
+  "networkx",
+  "pydantic",
+  "rich",
+  "typer"
+]
+
+[project.optional-dependencies]
+dev = [
+  "mypy",
+  "pre-commit",
+  "pytest",
+  "ruff"
+]
+
+[project.scripts]
+threatweaver = "threatweaver.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/threatweaver"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src", "tests"]
