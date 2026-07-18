@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import networkx as nx
+from networkx.exception import NetworkXNoPath
+
 from threatweaver.graph.security_graph import SecurityGraph
 
 
@@ -34,3 +37,25 @@ class AttackPathAnalyzer:
             )
 
         return visited
+
+    def shortest_path(
+        self,
+        graph: SecurityGraph,
+        source: str,
+        target: str,
+    ) -> list[str]:
+        """Return the shortest attack path between two resources."""
+
+        if not graph.has_resource(source) or not graph.has_resource(target):
+            return []
+
+        try:
+            return list(
+                nx.shortest_path(
+                    graph.graph,
+                    source=source,
+                    target=target,
+                )
+            )
+        except NetworkXNoPath:
+            return []
