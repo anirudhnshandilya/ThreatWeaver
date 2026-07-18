@@ -94,20 +94,21 @@ def shortest_path(
     except NetworkXNoPath:
         return []
 
-    def test_shortest_path() -> None:
-        graph = SecurityGraph()
 
-        graph.graph.add_edge("a", "b")
-        graph.graph.add_edge("b", "c")
-        graph.graph.add_edge("c", "d")
+def test_shortest_path() -> None:
+    graph = SecurityGraph()
 
-        analyzer = AttackPathAnalyzer()
+    graph.graph.add_edge("a", "b")
+    graph.graph.add_edge("b", "c")
+    graph.graph.add_edge("c", "d")
 
-        assert analyzer.shortest_path(
-            graph,
-            "a",
-            "d",
-        ) == ["a", "b", "c", "d"]
+    analyzer = AttackPathAnalyzer()
+
+    assert analyzer.shortest_path(
+        graph,
+        "a",
+        "d",
+    ) == ["a", "b", "c", "d"]
 
 
 def test_shortest_path_unknown_node() -> None:
