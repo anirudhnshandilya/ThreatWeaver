@@ -142,3 +142,29 @@ def test_shortest_path_no_route() -> None:
         )
         == []
     )
+
+
+def test_score_single_node_path() -> None:
+    analyzer = AttackPathAnalyzer()
+
+    assert analyzer.score_path(["ec2"]) == 100
+
+
+def test_score_three_node_path() -> None:
+    analyzer = AttackPathAnalyzer()
+
+    assert analyzer.score_path(["internet", "alb", "ec2"]) == 80
+
+
+def test_score_empty_path() -> None:
+    analyzer = AttackPathAnalyzer()
+
+    assert analyzer.score_path([]) == 0
+
+
+def test_score_long_path_never_negative() -> None:
+    analyzer = AttackPathAnalyzer()
+
+    path = [str(i) for i in range(25)]
+
+    assert analyzer.score_path(path) == 0

@@ -59,3 +59,16 @@ class AttackPathAnalyzer:
             )
         except NetworkXNoPath:
             return []
+
+    def score_path(
+        self,
+        path: list[str],
+    ) -> int:
+        """Return a simple risk score for an attack path."""
+
+        if not path:
+            return 0
+
+        score = 100 - ((len(path) - 1) * 10)
+
+        return max(score, 0)
