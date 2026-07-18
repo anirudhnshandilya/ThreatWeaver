@@ -53,7 +53,13 @@ def extract_resources(
         resource_type = raw_resource.get("type")
         name = raw_resource.get("name")
 
-        if not all(isinstance(value, str) for value in (address, resource_type, name)):
+        if not isinstance(address, str):
+            continue
+
+        if not isinstance(resource_type, str):
+            continue
+
+        if not isinstance(name, str):
             continue
 
         values = raw_resource.get("values", {})
