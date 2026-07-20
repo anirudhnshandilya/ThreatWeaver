@@ -33,7 +33,8 @@ dev = [
   "mypy",
   "pre-commit",
   "pytest",
-  "ruff"
+  "ruff",
+  "types-networkx>=3.6.1.20260624",
 ]
 
 [project.scripts]
@@ -57,3 +58,6 @@ select = ["E", "F", "I", "B", "UP"]
 python_version = "3.12"
 strict = true
 files = ["src", "tests"]
+
+[dependency-groups]
+dev = []
