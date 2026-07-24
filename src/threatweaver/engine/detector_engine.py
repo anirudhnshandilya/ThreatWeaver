@@ -7,6 +7,7 @@ from threatweaver.detectors import (
     PublicEC2InstanceDetector,
     PublicS3BucketDetector,
 )
+from threatweaver.detectors.public_rds_detector import PublicRDSDetector
 from threatweaver.findings.model import SecurityFinding
 from threatweaver.models.resource import InfrastructureResource
 
@@ -30,6 +31,7 @@ class DetectorEngine:
             OpenSecurityGroupDetector(),
             PublicS3BucketDetector(),
             PublicEC2InstanceDetector(),
+            PublicRDSDetector(),
         ]
 
     def analyze(
