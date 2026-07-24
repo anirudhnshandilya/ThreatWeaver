@@ -129,4 +129,4 @@ def test_analyze_rejects_invalid_format(
     )
 
     assert result.exit_code != 0
-    assert "Format must be either" in result.stderr
+    assert "Format must be one of: text, json, sarif." in result.stderr

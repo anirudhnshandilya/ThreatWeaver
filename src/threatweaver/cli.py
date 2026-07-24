@@ -6,6 +6,7 @@ import typer
 from threatweaver.engine import DetectorEngine
 from threatweaver.parsers.terraform import extract_resources, load_terraform_plan
 from threatweaver.report import AnalysisReport
+from threatweaver.sarif import export_sarif
 
 app = typer.Typer()
 
@@ -23,7 +24,7 @@ FORMAT_OPTION = typer.Option(
     "text",
     "--format",
     "-f",
-    help="Output format: text or json.",
+    help="Output format: text, json, or sarif.",
 )
 
 OUTPUT_OPTION = typer.Option(
@@ -123,9 +124,11 @@ def analyze(
             len(resources),
             report,
         )
+    elif normalized_format == "sarif":
+        rendered_report = export_sarif(report)
     else:
         raise typer.BadParameter(
-            "Format must be either 'text' or 'json'.",
+            "Format must be one of: text, json, sarif.",
             param_hint="--format",
         )
 
