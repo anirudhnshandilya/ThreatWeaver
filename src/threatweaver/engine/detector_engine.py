@@ -8,6 +8,9 @@ from threatweaver.detectors import (
     PublicS3BucketDetector,
 )
 from threatweaver.detectors.public_rds_detector import PublicRDSDetector
+from threatweaver.detectors.unencrypted_ebs import (
+    UnencryptedEBSDetector,
+)
 from threatweaver.findings.model import SecurityFinding
 from threatweaver.models.resource import InfrastructureResource
 
@@ -32,6 +35,7 @@ class DetectorEngine:
             PublicS3BucketDetector(),
             PublicEC2InstanceDetector(),
             PublicRDSDetector(),
+            UnencryptedEBSDetector(),
         ]
 
     def analyze(
