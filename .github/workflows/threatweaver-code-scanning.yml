@@ -1,0 +1,63 @@
+name: ThreatWeaver Code Scanning
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  threatweaver:
+    name: Scan Terraform plan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install ThreatWeaver
+        run: uv sync --extra dev
+
+      - name: Find Terraform plan
+        id: terraform-plan
+        shell: bash
+        run: |
+          if [ -f "plan.json" ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+            echo "path=plan.json" >> "$GITHUB_OUTPUT"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "No plan.json file found. Skipping ThreatWeaver scan."
+          fi
+
+      - name: Run ThreatWeaver
+        if: steps.terraform-plan.outputs.found == 'true'
+        run: |
+          uv run threatweaver analyze \
+            "${{ steps.terraform-plan.outputs.path }}" \
+            --format sarif \
+            --output threatweaver-results.sarif
+
+      - name: Upload SARIF results
+        if: steps.terraform-plan.outputs.found == 'true' && always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: threatweaver-results.sarif
+          category: threatweaver
