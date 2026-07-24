@@ -7,6 +7,9 @@ from threatweaver.detectors import (
     PublicEC2InstanceDetector,
     PublicS3BucketDetector,
 )
+from threatweaver.detectors.public_ebs_snapshot import (
+    PublicEBSSnapshotDetector,
+)
 from threatweaver.detectors.public_rds_detector import PublicRDSDetector
 from threatweaver.detectors.unencrypted_ebs import (
     UnencryptedEBSDetector,
@@ -36,6 +39,7 @@ class DetectorEngine:
             PublicEC2InstanceDetector(),
             PublicRDSDetector(),
             UnencryptedEBSDetector(),
+            PublicEBSSnapshotDetector(),
         ]
 
     def analyze(
